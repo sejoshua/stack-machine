@@ -1,0 +1,55 @@
+buildscript {
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:6.1.0'
+    }
+}
+
+plugins {
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'com.github.johnrengelman.shadow'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    versions = [
+            commonLang3     : '3.12.0',
+            slf4j           : '1.7.32',
+            logback         : '1.2.5',
+            lombok          : '1.18.20',
+            junit           : '5.7.2'
+    ]
+}
+
+dependencies {
+    implementation "org.apache.commons:commons-lang3:$versions.commonLang3"
+
+    implementation "org.slf4j:slf4j-api:$versions.slf4j"
+    implementation "org.slf4j:slf4j-simple:$versions.slf4j"
+    implementation "org.slf4j:slf4j-log4j12:$versions.slf4j"
+//    implementation "ch.qos.logback:logback-core:$versions.logback"
+//    implementation "ch.qos.logback:logback-classic:$versions.logback"
+
+    compileOnly "org.projectlombok:lombok:$versions.lombok"
+    annotationProcessor "org.projectlombok:lombok:$versions.lombok"
+
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$versions.junit"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$versions.junit"
+}
+
+test {
+    useJUnitPlatform()
+}
+
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'org.example.Application'
+    }
+}
